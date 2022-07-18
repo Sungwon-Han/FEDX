@@ -1,4 +1,6 @@
 """ 
+Functions to load CIFAR-10 and SVHN data.
+
 Most of the codes in this file are excerpted from the original work
 https://github.com/QinbinLi/MOON/blob/main/datasets.py
 
@@ -57,9 +59,7 @@ class SVHN_truncated(data.Dataset):
         self.data, self.target = self.__build_truncated_dataset__()
 
     def __build_truncated_dataset__(self):
-        svhn_dataobj = SVHN(
-            self.root, self.split, self.transform, self.target_transform, self.download
-        )
+        svhn_dataobj = SVHN(self.root, self.split, self.transform, self.target_transform, self.download)
         data = svhn_dataobj.data
         target = np.array(svhn_dataobj.labels)
 
@@ -114,19 +114,13 @@ class CIFAR10_truncated(data.Dataset):
 
     def __build_truncated_dataset__(self):
 
-        cifar_dataobj = CIFAR10(
-            self.root, self.train, self.transform, self.target_transform, self.download
-        )
+        cifar_dataobj = CIFAR10(self.root, self.train, self.transform, self.target_transform, self.download)
 
         if torchvision.__version__ == "0.2.1":
             if self.train:
-                data, target = cifar_dataobj.train_data, np.array(
-                    cifar_dataobj.train_labels
-                )
+                data, target = cifar_dataobj.train_data, np.array(cifar_dataobj.train_labels)
             else:
-                data, target = cifar_dataobj.test_data, np.array(
-                    cifar_dataobj.test_labels
-                )
+                data, target = cifar_dataobj.test_data, np.array(cifar_dataobj.test_labels)
         else:
             data = cifar_dataobj.data
             target = np.array(cifar_dataobj.targets)
