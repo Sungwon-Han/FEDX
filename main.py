@@ -15,7 +15,7 @@ import torch
 import torch.optim as optim
 
 from losses import js_loss, nt_xent
-from model import init_nets, ModelFedX
+from model import init_nets
 from utils import get_dataloader, mkdirs, partition_data, test_linear_fedX, set_logger
 
 
