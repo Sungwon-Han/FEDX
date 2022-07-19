@@ -1,3 +1,8 @@
+"""
+Main model (FedX) class representing backbone network and projection heads
+
+"""
+
 import torch.nn as nn
 
 from resnetcifar import ResNet18_cifar10, ResNet50_cifar10
@@ -25,9 +30,7 @@ class ModelFedX(nn.Module):
             self.features = nn.Sequential(*list(basemodel.children())[:-1])
             self.num_ftrs = basemodel.fc.in_features
         else:
-            raise (
-                "Invalid model type. Check the config file and pass one of: resnet18 or resnet50"
-            )
+            raise ("Invalid model type. Check the config file and pass one of: resnet18 or resnet50")
 
         self.projectionMLP = nn.Sequential(
             nn.Linear(self.num_ftrs, out_dim),
@@ -46,9 +49,7 @@ class ModelFedX(nn.Module):
             model = self.model_dict[model_name]
             return model
         except:
-            raise (
-                "Invalid model name. Check the config file and pass one of: resnet18 or resnet50"
-            )
+            raise ("Invalid model name. Check the config file and pass one of: resnet18 or resnet50")
 
     def forward(self, x):
         h = self.features(x)
@@ -59,3 +60,19 @@ class ModelFedX(nn.Module):
         proj = self.projectionMLP(h)
         pred = self.predictionMLP(proj)
         return h, proj, pred
+
+
+def init_nets(net_configs, n_parties, args, device="cpu"):
+    nets = {net_i: None for net_i in range(n_parties)}
+    for net_i in range(n_parties):
+        net = ModelFedX(args.model, args.out_dim, net_configs)
+        net = net.cuda()
+        nets[net_i] = net
+
+    model_meta_data = []
+    layer_type = []
+    for (k, v) in nets[0].state_dict().items():
+        model_meta_data.append(v.shape)
+        layer_type.append(k)
+
+    return nets, model_meta_data, layer_type
