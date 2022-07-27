@@ -25,7 +25,7 @@ def get_args():
     parser.add_argument("--dataset", type=str, default="cifar10", help="dataset used for training")
     parser.add_argument("--net_config", type=lambda x: list(map(int, x.split(", "))))
     parser.add_argument("--partition", type=str, default="noniid", help="the data partitioning strategy")
-    parser.add_argument("--batch-size", type=int, default=64, help="input batch size for training (default: 64)")
+    parser.add_argument("--batch-size", type=int, default=128, help="total sum of input batch size for training (default: 128)")
     parser.add_argument("--lr", type=float, default=0.01, help="learning rate (default: 0.1)")
     parser.add_argument("--epochs", type=int, default=10, help="number of local epochs")
     parser.add_argument("--n_parties", type=int, default=10, help="number of workers in a distributed cluster")
@@ -249,10 +249,12 @@ if __name__ == "__main__":
     net_id = 0
 
     # Distribute dataset and dataloader to each local party
+    # We use two dataloaders for training FedX (train_dataloader, random_dataloader), 
+    # and their batch sizes (args.batch_size // 2) are summed up to args.batch_size
     for net in nets:
         dataidxs = net_dataidx_map[net_id]
         train_dl_local, val_dl_local, _, _, _, _ = get_dataloader(
-            args.dataset, args.datadir, args.batch_size, args.batch_size * 2, dataidxs
+            args.dataset, args.datadir, args.batch_size // 2, args.batch_size * 2, dataidxs
         )
         train_dl_local_dict[net_id] = train_dl_local
         val_dl_local_dict[net_id] = val_dl_local

@@ -67,3 +67,23 @@ optional arguments:
   --sample_fraction SAMPLE_FRACTION
                         how many clients are sampled in each round
 ```
+
+
+## To run the code ##
+CIFAR-10 experiments with 10 local clients
+```
+python main.py --dataset cifar10 --batch-size 128 --n_parties 10 --logdir {path} --modeldir {path}
+```
+
+
+## Citation ##
+If you find this repo useful for your research, please consider citing our paper:
+
+```
+@article{han2022fedx,
+  title={FedX: Unsupervised Federated Learning with Cross Knowledge Distillation},
+  author={Han, Sungwon and Park, Sungwon and Wu, Fangzhao and Kim, Sundong and Wu, Chuhan and Xie, Xing and Cha, Meeyoung},
+  journal={arXiv preprint arXiv:2207.09158},
+  year={2022}
+}
+```
