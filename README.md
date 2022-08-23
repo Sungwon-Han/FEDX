@@ -1,5 +1,5 @@
 # FedX: Unsupervised Federated Learning with Cross Knowledge Distillation #
-This repo is the PyTorch code for "FedX: Unsupervised Federated Learning with Cross Knowledge Distillation"
+This repo is the PyTorch code of our ECCV 2022 paper [FedX: Unsupervised Federated Learning with Cross Knowledge Distillation](https://arxiv.org/abs/2207.09158)
 
 ## Highlight ##
 1. We propose an unsupervised federated learning algorithm, FedX, that learns data representations via a unique two-sided knowledge distillation at local and global levels.
@@ -80,10 +80,10 @@ python main.py --dataset cifar10 --batch-size 128 --n_parties 10 --logdir {path}
 If you find this repo useful for your research, please consider citing our paper:
 
 ```
-@article{han2022fedx,
-  title={FedX: Unsupervised Federated Learning with Cross Knowledge Distillation},
+@inproceedings{han2022fedx,
+  title={{FedX: Unsupervised Federated Learning with Cross Knowledge Distillation}},
   author={Han, Sungwon and Park, Sungwon and Wu, Fangzhao and Kim, Sundong and Wu, Chuhan and Xie, Xing and Cha, Meeyoung},
-  journal={arXiv preprint arXiv:2207.09158},
+  booktitle={ECCV},
   year={2022}
 }
 ```
